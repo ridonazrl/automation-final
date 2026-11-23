@@ -1,0 +1,176 @@
+services:
+  autolike-be:
+    build:
+      context: ./autolike/backend
+      dockerfile: Dockerfile.backend
+    container_name: spammer-backend-new
+    restart: unless-stopped
+    init: true
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./autolike/backend/accounts:/app/accounts
+      - ./autolike/backend/cookies:/app/cookies
+      - ./autolike/backend/results.json:/app/results.json
+      - ./autolike/backend/auto_like.py:/app/auto_like.py
+      - ./autolike/backend/bot.py:/app/bot.py
+      - ./autolike/backend/backend.py:/app/backend.py
+    mem_limit: 2g
+    cpus: 2.0
+    networks:
+      - spammer-net
+
+  autolike-fe:
+    build:
+      context: ./autolike/backend/frontend
+      dockerfile: Dockerfile
+    container_name: spammer-frontend-new
+    restart: unless-stopped
+    ports:
+      - "8082:80"
+    depends_on:
+      - autolike-be
+    networks:
+      - spammer-net
+
+  autocomment-be:
+    build:
+      context: ./autocomment/backend
+      dockerfile: Dockerfile
+    container_name: auto-like-be
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./autocomment/backend/app:/app/app
+      - ./autocomment/backend/AutoComment_Python:/app/AutoComment_Python
+    networks:
+      - spammer-net
+
+  autocomment-fe:
+    build:
+      context: ./autocomment/frontend
+      dockerfile: Dockerfile
+    container_name: autocomment-fe
+    restart: unless-stopped
+    ports:
+      - "5175:80"
+    networks:
+      - spammer-net
+
+  autotiktok-be:
+    build:
+      context: ./autotiktok
+      dockerfile: Dockerfile
+    container_name: autotiktok-be
+    restart: unless-stopped
+    ports:
+      - "8083:8000"
+    networks:
+      - spammer-net
+
+  autotiktok-fe:
+    build:
+      context: ./autotiktok-fe
+      dockerfile: Dockerfile
+    container_name: autotiktok-fe
+    restart: unless-stopped
+    ports:
+      - "8084:80"
+    depends_on:
+      - autotiktok-be
+    networks:
+      - spammer-net
+
+  autocomment-tiktok-be:
+    build:
+      context: ./autocomment-tiktok
+      dockerfile: Dockerfile
+    container_name: autocomment-tiktok-be
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    ports:
+      - "8086:8000"
+    networks:
+      - spammer-net
+
+  fe-acm-tiktok:
+    build:
+      context: ./fe-acm-tiktok
+      dockerfile: Dockerfile
+    container_name: fe-acm-tiktok
+    restart: unless-stopped
+    ports:
+      - "8087:80"  # Port baru biar gak bentrok
+    depends_on:
+      - autocomment-tiktok-be
+    networks:
+      - spammer-net
+
+  views-tiktok-be:
+    build:
+      context: ./views-tiktok
+      dockerfile: Dockerfile
+    container_name: views-tiktok-be
+    restart: unless-stopped
+    ports:
+      - "8088:8000"
+    networks:
+      - spammer-net
+
+  # ============ EWS ============
+  ews-be:
+    build:
+      context: ./ews-be
+      dockerfile: Dockerfile
+    container_name: ews-be
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    environment:
+      - DATABASE_URL=postgresql://ews_user:ews_pass@ews-db:5432/ews_db
+    ports:
+      - "8002:8000"
+    depends_on:
+      - ews-db
+    networks:
+      - spammer-net
+
+  ews-db:
+    image: postgres:15-alpine
+    container_name: ews-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ews_user
+      POSTGRES_PASSWORD: ews_pass
+      POSTGRES_DB: ews_db
+    volumes:
+      - ews-db-data:/var/lib/postgresql/data
+    networks:
+      - spammer-net
+
+  ews-fe:
+    build:
+      context: ./ews-fe/fe/ews-fe
+      dockerfile: Dockerfile
+    container_name: ews-fe
+    restart: unless-stopped
+    ports:
+      - "8085:80"
+    depends_on:
+      - ews-be
+    networks:
+      - spammer-net
+
+networks:
+  spammer-net:
+    driver: bridge
+
+volumes:
+  ews-db-data:

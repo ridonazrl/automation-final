@@ -1,0 +1,139 @@
+[
+  {
+    "id": "views_1794377778",
+    "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+    "accounts": [
+      "akun1",
+      "akun2"
+    ],
+    "repeat": 10,
+    "timestamp": "2026-11-11 13:16:18",
+    "results": {
+      "success": 20,
+      "failed": 0
+    },
+    "details": [
+      {
+        "success": true,
+        "account": "akun1",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 23
+      },
+      {
+        "success": true,
+        "account": "akun1",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 17
+      },
+      {
+        "success": true,
+        "account": "akun1",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 17
+      },
+      {
+        "success": true,
+        "account": "akun1",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 29
+      },
+      {
+        "success": true,
+        "account": "akun1",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 29
+      },
+      {
+        "success": true,
+        "account": "akun1",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 29
+      },
+      {
+        "success": true,
+        "account": "akun1",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 21
+      },
+      {
+        "success": true,
+        "account": "akun1",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 18
+      },
+      {
+        "success": true,
+        "account": "akun1",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 18
+      },
+      {
+        "success": true,
+        "account": "akun1",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 17
+      },
+      {
+        "success": true,
+        "account": "akun2",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 19
+      },
+      {
+        "success": true,
+        "account": "akun2",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 30
+      },
+      {
+        "success": true,
+        "account": "akun2",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 19
+      },
+      {
+        "success": true,
+        "account": "akun2",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 25
+      },
+      {
+        "success": true,
+        "account": "akun2",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 17
+      },
+      {
+        "success": true,
+        "account": "akun2",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 16
+      },
+      {
+        "success": true,
+        "account": "akun2",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 15
+      },
+      {
+        "success": true,
+        "account": "akun2",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 26
+      },
+      {
+        "success": true,
+        "account": "akun2",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 30
+      },
+      {
+        "success": true,
+        "account": "akun2",
+        "url": "https://www.tiktok.com/@chaktheduck/video/7692411188012911892",
+        "watched_seconds": 26
+      }
+    ],
+    "status": "success"
+  }
+]

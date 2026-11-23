@@ -1,0 +1,29 @@
+# Backup & file rusak
+*.bak
+*.bak-*
+*.rusak
+*.rusak*
+backup-final/
+docker-compose.yml.bak
+
+# Environment & secret
+.env
+.env.*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Log
+*.log
+
+# Git backup lama
+.git.old-backup/
+*.old-backup/

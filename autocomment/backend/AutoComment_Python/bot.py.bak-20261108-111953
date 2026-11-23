@@ -1,0 +1,77 @@
+"""Bot comment generator menggunakan Google Gemini SDK resmi (Interactions API)."""
+
+import os
+import time
+from pathlib import Path
+from dotenv import load_dotenv
+from google import genai
+
+ENV_PATH = Path(__file__).parent / ".env"
+load_dotenv(dotenv_path=ENV_PATH)
+
+
+def generate_comment(post_text: str, max_retries: int = 3) -> str:
+    """Hasilkan komentar menggunakan Google Gemini SDK (Interactions API).
+
+    Auto-retry kalau Gemini balas 503 (server sibuk).
+    """
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        raise ValueError("GEMINI_API_KEY belum diisi di file .env")
+
+    client = genai.Client(api_key=api_key)
+
+    prompt = (
+        "Baca postingan media sosial berikut dan buatkan komentar yang:\n"
+        "1. Relevan dengan isi dan konteks postingan\n"
+        "2. Bersifat positif, ramah, dan membangun\n"
+        "3. Menggunakan bahasa yang natural, santai, dan mengalir\n"
+        "4. Cukup 1 kalimat saja, singkat dan padat\n"
+        "5. Kalimat harus utuh dan bermakna, bukan sekadar pujian pendek\n"
+        "6. Boleh menambahkan kesan atau opini singkat\n"
+        "7. Jangan gunakan emoji berlebihan (maksimal 1 emoji)\n"
+        "8. Hanya balas dengan teks komentarnya saja, tanpa penjelasan tambahan\n"
+        "9. Jangan gunakan tanda kutip di awal/akhir komentar\n\n"
+        f"Postingan: {post_text}\n\n"
+        "Komentar:"
+    )
+
+    last_error = None
+    for attempt in range(max_retries):
+        try:
+            interaction = client.interactions.create(
+                model="gemini-3.8-flash",
+                input=prompt,
+            )
+            comment = (interaction.output_text or "").strip()
+            if not comment:
+                raise Exception("Respons Gemini kosong")
+            print(f"💬 Komentar (gemini-3.8-flash): {comment}")
+            return comment
+        except Exception as e:
+            last_error = e
+            err_str = str(e).lower()
+
+            # Cek apakah error 503 / server sibuk
+            is_503 = (
+                "503" in err_str
+                or "unavailable" in err_str
+                or "high demand" in err_str
+                or "service unavailable" in err_str
+            )
+
+            if is_503 and attempt < max_retries - 1:
+                wait = 15 * (attempt + 1)  # 15s, 30s
+                print(f"⚠️ Gemini 503 (server sibuk), retry dalam {wait}s... (attempt {attempt + 1}/{max_retries})")
+                time.sleep(wait)
+                continue
+
+            # Error lain atau retry habis
+            break
+
+    raise Exception(f"Gagal generate komentar setelah {max_retries} attempt: {last_error}")
+
+
+if __name__ == "__main__":
+    test = generate_comment("Hari ini cuacanya cerah sekali, matahari bersinar terang.")
+    print(f"\nHasil: {test}")

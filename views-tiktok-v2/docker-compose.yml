@@ -1,0 +1,15 @@
+networks:
+  spammer_spammer-net:
+    external: true
+
+services:
+  views-tiktok-v2-be:
+    build:
+      context: ./source
+      dockerfile: Dockerfile
+    container_name: views-tiktok-v2-be
+    restart: unless-stopped
+    ports:
+      - "8089:8000"
+    networks:
+      - spammer_spammer-net

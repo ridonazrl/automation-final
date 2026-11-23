@@ -1,0 +1,52 @@
+"""Bot comment generator menggunakan Google Gemini SDK resmi (Interactions API)."""
+
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+from google import genai
+
+ENV_PATH = Path(__file__).parent / ".env"
+load_dotenv(dotenv_path=ENV_PATH)
+
+
+def generate_comment(post_text: str) -> str:
+    """Hasilkan komentar menggunakan Google Gemini SDK (Interactions API)."""
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        raise ValueError("GEMINI_API_KEY belum diisi di file .env")
+
+    client = genai.Client(api_key=api_key)
+
+    # ── FIX: prompt diubah jadi 1 kalimat saja ──
+    prompt = (
+        "Baca postingan media sosial berikut dan buatkan komentar yang:\n"
+        "1. Relevan dengan isi dan konteks postingan\n"
+        "2. Bersifat positif, ramah, dan membangun\n"
+        "3. Menggunakan bahasa yang natural, santai, dan mengalir\n"
+        "4. Cukup 1 kalimat saja, singkat dan padat\n"
+        "5. Kalimat harus utuh dan bermakna, bukan sekadar pujian pendek\n"
+        "6. Boleh menambahkan kesan atau opini singkat\n"
+        "7. Jangan gunakan emoji berlebihan (maksimal 1 emoji)\n"
+        "8. Hanya balas dengan teks komentarnya saja, tanpa penjelasan tambahan\n"
+        "9. Jangan gunakan tanda kutip di awal/akhir komentar\n\n"
+        f"Postingan: {post_text}\n\n"
+        "Komentar:"
+    )
+
+    try:
+        interaction = client.interactions.create(
+            model="gemini-3.6-flash",
+            input=prompt,
+        )
+        comment = (interaction.output_text or "").strip()
+        if not comment:
+            raise Exception("Respons Gemini kosong")
+        print(f"💬 Komentar (gemini-3.6-flash): {comment}")
+        return comment
+    except Exception as e:
+        raise Exception(f"Gagal generate komentar: {e}")
+
+
+if __name__ == "__main__":
+    test = generate_comment("Hari ini cuacanya cerah sekali, matahari bersinar terang.")
+    print(f"\nHasil: {test}")

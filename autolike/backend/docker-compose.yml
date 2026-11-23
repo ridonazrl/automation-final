@@ -1,0 +1,32 @@
+services:
+  spammer-backend-new:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: spammer-backend-new
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./accounts:/app/accounts
+      - ./cookies:/app/cookies
+      - ./results.json:/app/results.json
+    networks:
+      - auto-like-net
+
+  spammer-frontend-new:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: spammer-frontend-new
+    restart: unless-stopped
+    ports:
+      - "8082:80"
+    depends_on:
+      - spammer-backend-new
+    networks:
+      - auto-like-net
+
+networks:
+  auto-like-net:
+    driver: bridge

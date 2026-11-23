@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+env/
+
+# Node
+node_modules/
+dist/
+build/
+
+# Env & Secrets
+.env
+.env.*
+cookies/
+
+# Logs & Debug
+*.log
+debug_*.png
+storage_state.json
+
+# OS & Docker
+.DS_Store
+Thumbs.db
+*.bak
